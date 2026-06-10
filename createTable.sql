@@ -210,3 +210,5 @@ TRUNCATE TABLE brands;
 TRUNCATE TABLE suppliers;
 
 SET FOREIGN_KEY_CHECKS = 1;  -- включаем обратно
+
+SELECT id, name, discount FROM products;
