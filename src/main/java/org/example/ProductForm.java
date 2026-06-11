@@ -13,6 +13,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.scene.layout.Priority;
 
 import java.io.File;
 import java.io.IOException;
@@ -45,6 +46,9 @@ public class ProductForm {
 
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.setTitle(editingProduct == null ? "Добавление товара" : "Редактирование товара");
+
+        stage.setMinWidth(550);
+        stage.setMinHeight(600);
 
         try {
             Image icon = new Image(getClass().getResourceAsStream("/images/icon.png"));
@@ -138,7 +142,48 @@ public class ProductForm {
             fillFields();
         }
 
+        // ============================================================
+        // РАСТЯГИВАЕМ ПОЛЯ (без цикла, без Node)
+        // ============================================================
+        // Наименование
+        GridPane.setHgrow(nameField, Priority.ALWAYS);
+        nameField.setMaxWidth(Double.MAX_VALUE);
+
+        // Описание
+        GridPane.setHgrow(descriptionArea, Priority.ALWAYS);
+        descriptionArea.setMaxWidth(Double.MAX_VALUE);
+
+        // Цена
+        GridPane.setHgrow(priceField, Priority.ALWAYS);
+        priceField.setMaxWidth(Double.MAX_VALUE);
+
+        // Количество
+        GridPane.setHgrow(countField, Priority.ALWAYS);
+        countField.setMaxWidth(Double.MAX_VALUE);
+
+        // Скидка
+        GridPane.setHgrow(discountField, Priority.ALWAYS);
+        discountField.setMaxWidth(Double.MAX_VALUE);
+
+        // Единица измерения
+        GridPane.setHgrow(unitField, Priority.ALWAYS);
+        unitField.setMaxWidth(Double.MAX_VALUE);
+
+        // Категория
+        GridPane.setHgrow(categoryCombo, Priority.ALWAYS);
+        categoryCombo.setMaxWidth(Double.MAX_VALUE);
+
+        // Производитель
+        GridPane.setHgrow(brandCombo, Priority.ALWAYS);
+        brandCombo.setMaxWidth(Double.MAX_VALUE);
+
+        // Поставщик
+        GridPane.setHgrow(supplierCombo, Priority.ALWAYS);
+        supplierCombo.setMaxWidth(Double.MAX_VALUE);
+        // ============================================================
+
         Scene scene = new Scene(grid, 600, 650);
+        scene.getStylesheets().add(getClass().getResource("/css/styles.css").toExternalForm());
         stage.setScene(scene);
         stage.show();
     }

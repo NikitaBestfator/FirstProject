@@ -23,6 +23,9 @@ public class LoginView extends Application {
         this.primaryStage = primaryStage;
         primaryStage.setTitle("Авторизация - Обувной магазин");
 
+        primaryStage.setMinWidth(1000);
+        primaryStage.setMinHeight(600);
+
         // Установка иконки
         try {
             Image icon = new Image(getClass().getResourceAsStream("/images/icon.png"));
@@ -70,6 +73,7 @@ public class LoginView extends Application {
         });
 
         Scene scene = new Scene(grid, 400, 200);
+        scene.getStylesheets().add(getClass().getResource("/css/styles.css").toExternalForm());
         primaryStage.setScene(scene);
         primaryStage.show();
     }

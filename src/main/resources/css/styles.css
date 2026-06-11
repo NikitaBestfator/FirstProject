@@ -1,0 +1,78 @@
+/* Общий фон приложения */
+.root {
+    -fx-font-family: "Segoe UI", "Arial", sans-serif;
+    -fx-base: #f5f5f5;
+}
+
+/* Верхняя панель */
+.top-bar {
+    -fx-background-color: linear-gradient(to right, #2c3e50, #3498db);
+    -fx-text-fill: white;
+    -fx-padding: 10;
+}
+
+/* Кнопки */
+.button {
+    -fx-background-color: #3498db;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 5;
+    -fx-padding: 8 15 8 15;
+    -fx-cursor: hand;
+}
+
+.button:hover {
+    -fx-background-color: #2980b9;
+}
+
+.button:pressed {
+    -fx-background-color: #1c6ea4;
+}
+
+/* Красная кнопка (удаление) */
+.button-danger {
+    -fx-background-color: #e74c3c;
+}
+
+.button-danger:hover {
+    -fx-background-color: #c0392b;
+}
+
+/* Панель поиска */
+.search-panel {
+    -fx-background-color: #ecf0f1;
+    -fx-padding: 10;
+    -fx-border-radius: 5;
+}
+
+/* Поле поиска */
+.text-field, .combo-box {
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
+    -fx-border-color: #bdc3c7;
+}
+
+/* Таблица */
+.table-view {
+    -fx-background-color: white;
+    -fx-border-color: #bdc3c7;
+}
+
+.table-view .column-header {
+    -fx-background-color: #34495e;
+    -fx-text-fill: white;
+}
+
+.table-row-cell:odd {
+    -fx-background-color: #f9f9f9;
+}
+
+/* Зелёная подсветка для скидки >15% */
+.green-row {
+    -fx-background-color: #2E8B57;
+}
+
+/* Голубая подсветка для остатка 0 */
+.blue-row {
+    -fx-background-color: lightblue;
+}

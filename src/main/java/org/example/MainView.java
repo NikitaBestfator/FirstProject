@@ -14,6 +14,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.scene.layout.Priority;
 
 import java.io.File;
 import java.sql.*;
@@ -38,6 +39,9 @@ public class MainView extends Application {
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
         primaryStage.setTitle("Обувной магазин - Главное окно");
+
+        primaryStage.setMinWidth(1000);
+        primaryStage.setMinHeight(600);
 
         try {
             Image icon = new Image(getClass().getResourceAsStream("/images/icon.png"));
@@ -79,6 +83,7 @@ public class MainView extends Application {
         }
 
         Scene scene = new Scene(mainLayout, 1200, 700);
+        scene.getStylesheets().add(getClass().getResource("/css/styles.css").toExternalForm());
         primaryStage.setScene(scene);
         primaryStage.show();
     }
@@ -198,6 +203,8 @@ public class MainView extends Application {
         TableColumn<Product, String> unitCol = new TableColumn<>("Ед. изм.");
         unitCol.setCellValueFactory(new PropertyValueFactory<>("unit"));
 
+        tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+
         tableView.getColumns().addAll(photoCol, nameCol, categoryCol, descCol, brandCol,
                 supplierCol, priceCol, countCol, discountCol, unitCol);
         tableView.setItems(productList);
@@ -244,6 +251,9 @@ public class MainView extends Application {
     private HBox createControlPanel() {
         TextField searchField = new TextField();
         searchField.setPromptText("Поиск...");
+
+        HBox.setHgrow(searchField, Priority.ALWAYS);
+        searchField.setMaxWidth(Double.MAX_VALUE);
 
         ComboBox<String> supplierFilter = new ComboBox<>();
         supplierFilter.getItems().add("Все поставщики");

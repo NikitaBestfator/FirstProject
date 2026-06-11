@@ -31,6 +31,9 @@ public class OrdersView extends Application {
         this.primaryStage = primaryStage;
         primaryStage.setTitle("Управление заказами - " + currentUser.getName());
 
+        primaryStage.setMinWidth(800);
+        primaryStage.setMinHeight(450);
+
         try {
             Image icon = new Image(getClass().getResourceAsStream("/images/icon.png"));
             primaryStage.getIcons().add(icon);
@@ -79,6 +82,7 @@ public class OrdersView extends Application {
         layout.setRight(buttonBar);
 
         Scene scene = new Scene(layout, 900, 500);
+        scene.getStylesheets().add(getClass().getResource("/css/styles.css").toExternalForm());
         primaryStage.setScene(scene);
         primaryStage.show();
     }
@@ -126,6 +130,8 @@ public class OrdersView extends Application {
 
         TableColumn<Order, String> statusCol = new TableColumn<>("Статус");
         statusCol.setCellValueFactory(new PropertyValueFactory<>("status"));
+
+        tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
         tableView.getColumns().addAll(idCol, userCol, totalCol, dateCol, statusCol);
         tableView.setItems(orderList);
