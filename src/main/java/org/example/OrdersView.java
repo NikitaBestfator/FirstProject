@@ -45,9 +45,23 @@ public class OrdersView extends Application {
 
         // Кнопка "Удалить" только для ADMIN
         if (currentUser.getRole().equals("ADMIN")) {
-            Button deleteButton = new Button("Удалить выбранный заказ");
+            Button addButton = new Button("Добавить заказ");
+            addButton.setOnAction(e -> openOrderForm(null));
+
+            Button editButton = new Button("Редактировать заказ");
+            editButton.setOnAction(e -> {
+                Order selected = tableView.getSelectionModel().getSelectedItem();
+                if (selected == null) {
+                    showAlert("Внимание", "Сначала выберите заказ");
+                } else {
+                    openOrderForm(selected);
+                }
+            });
+
+            Button deleteButton = new Button("Удалить заказ");
             deleteButton.setOnAction(e -> deleteSelectedOrder());
-            buttonBar.getChildren().add(deleteButton);
+
+            buttonBar.getChildren().addAll(addButton, editButton, deleteButton);
         }
 
         // Кнопка "Назад" для всех
@@ -148,6 +162,13 @@ public class OrdersView extends Application {
         } catch (SQLException e) {
             showAlert("Ошибка БД", e.getMessage());
         }
+    }
+
+    private void openOrderForm(Order order) {
+        new OrderForm(order, () -> {
+            loadOrders();
+            tableView.refresh();
+        });
     }
 
     private Connection getConnection() throws SQLException {

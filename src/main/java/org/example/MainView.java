@@ -202,37 +202,42 @@ public class MainView extends Application {
                 supplierCol, priceCol, countCol, discountCol, unitCol);
         tableView.setItems(productList);
 
-        // Подсветка строк
-        tableView.setRowFactory(tv -> new TableRow<Product>() {
-            @Override
-            protected void updateItem(Product product, boolean empty) {
-                super.updateItem(product, empty);
-                if (product == null || empty) {
-                    setStyle("");
-                    return;
-                }
-                if (product.getCount() == 0) {
-                    setStyle("-fx-background-color: lightblue;");
-                } else if (product.getDiscount() > 15) {
-                    setStyle("-fx-background-color: #2E8B57;");
-                } else {
-                    setStyle("");
-                }
-            }
-        });
+        // Единый setRowFactory: подсветка строк + двойной клик для ADMIN
+        tableView.setRowFactory(tv -> {
+            TableRow<Product> row = new TableRow<Product>() {
+                @Override
+                protected void updateItem(Product product, boolean empty) {
+                    super.updateItem(product, empty);
+                    if (product == null || empty) {
+                        setStyle("");
+                        return;
+                    }
 
-        // Двойной клик для редактирования (только ADMIN)
-        if (currentUser.getRole().equals("ADMIN")) {
-            tableView.setRowFactory(tv -> {
-                TableRow<Product> row = new TableRow<>();
+                    // Товара нет на складе — голубой фон
+                    if (product.getCount() == 0) {
+                        setStyle("-fx-background-color: lightblue;");
+                    }
+                    // Скидка больше 15% — зелёный фон
+                    else if (product.getDiscount() > 15) {
+                        setStyle("-fx-background-color: #2E8B57;");
+                    }
+                    else {
+                        setStyle("");
+                    }
+                }
+            };
+
+            // Двойной клик для редактирования (только ADMIN)
+            if (currentUser.getRole().equals("ADMIN")) {
                 row.setOnMouseClicked(event -> {
                     if (event.getClickCount() == 2 && !row.isEmpty()) {
                         openProductForm(row.getItem());
                     }
                 });
-                return row;
-            });
-        }
+            }
+
+            return row;
+        });
     }
 
     // Панель управления (поиск, фильтр, сортировка)
