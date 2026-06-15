@@ -15,6 +15,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.scene.layout.Priority;
+import javafx.scene.Node;
 
 import java.io.File;
 import java.sql.*;
@@ -26,6 +27,8 @@ public class MainView extends Application {
     private ObservableList<Product> productList = FXCollections.observableArrayList();
     private TableView<Product> tableView = new TableView<>();
     private Stage primaryStage;
+
+    private BorderPane mainLayout;
 
     public MainView(User user) {
         this.currentUser = user;
@@ -64,7 +67,7 @@ public class MainView extends Application {
             header.getChildren().add(topBar);
         }
 
-        BorderPane mainLayout = new BorderPane();
+        mainLayout = new BorderPane();
         mainLayout.setTop(header);
         mainLayout.setCenter(tableView);
 
@@ -81,6 +84,7 @@ public class MainView extends Application {
             bottomBar.setAlignment(Pos.CENTER_LEFT);
             mainLayout.setBottom(bottomBar);
         }
+        updateStatistics();
 
         Scene scene = new Scene(mainLayout, 1200, 700);
         scene.getStylesheets().add(getClass().getResource("/css/styles.css").toExternalForm());
@@ -121,10 +125,66 @@ public class MainView extends Application {
         }
     }
 
+    // Обновление статистики на главном экране
+    private void updateStatistics() {
+        if (mainLayout == null) return;
+
+        int total = productList.size();
+        int discountMore15 = 0;
+        int outOfStock = 0;
+
+        for (Product p : productList) {
+            if (p.getDiscount() > 15) discountMore15++;
+            if (p.getCount() == 0) outOfStock++;
+        }
+
+        // Создаём панель статистики
+        HBox statsBar = new HBox(20);
+        statsBar.setId("statsBar");
+        statsBar.setPadding(new Insets(10));
+        statsBar.setStyle("-fx-background-color: #f8f9fa; -fx-border-color: #dee2e6; -fx-border-width: 1 0 0 0;");
+        statsBar.getChildren().addAll(
+                new Label("📊 Статистика:"),
+                new Label("Всего товаров: " + total),
+                new Label("Со скидкой >15%: " + discountMore15),
+                new Label("Нет в наличии: " + outOfStock)
+        );
+
+        // Проверяем, есть ли уже нижняя панель с кнопками
+        if (currentUser.getRole().equals("ADMIN")) {
+            // Если админ — комбинируем кнопки и статистику
+            Node existingBottom = mainLayout.getBottom();
+            if (existingBottom instanceof HBox && ((HBox) existingBottom).getChildren().size() == 2) {
+                // Если уже есть панель с кнопками — добавляем статистику к ней
+                HBox bottomBar = (HBox) existingBottom;
+                bottomBar.getChildren().add(statsBar);
+                HBox.setHgrow(statsBar, Priority.ALWAYS);
+                statsBar.setAlignment(Pos.CENTER_RIGHT);
+            } else {
+                // Создаём новую панель с кнопками и статистикой
+                Button addButton = new Button("Добавить товар");
+                addButton.setOnAction(e -> openProductForm(null));
+                Button deleteButton = new Button("Удалить выбранный товар");
+                deleteButton.setOnAction(e -> deleteSelectedProduct());
+
+                HBox bottomBar = new HBox(10, addButton, deleteButton, statsBar);
+                bottomBar.setPadding(new Insets(10));
+                bottomBar.setAlignment(Pos.CENTER_LEFT);
+                HBox.setHgrow(statsBar, Priority.ALWAYS);
+                statsBar.setAlignment(Pos.CENTER_RIGHT);
+                mainLayout.setBottom(bottomBar);
+            }
+        } else {
+            // Если не админ — только статистика
+            mainLayout.setBottom(statsBar);
+        }
+    }
+
     // Создание таблицы товаров
     private void createProductTable() {
         tableView.getColumns().clear();
 
+        // Колонка с фото
         // Колонка с фото
         TableColumn<Product, String> photoCol = new TableColumn<>("Фото");
         photoCol.setCellFactory(col -> new TableCell<Product, String>() {
@@ -137,24 +197,17 @@ public class MainView extends Application {
             @Override
             protected void updateItem(String photoPath, boolean empty) {
                 super.updateItem(photoPath, empty);
-                if (empty || photoPath == null || photoPath.isEmpty()) {
+                if (empty) {
                     setGraphic(null);
                     return;
                 }
-                try {
-                    File file = new File(photoPath);
-                    if (file.exists()) {
-                        imageView.setImage(new Image(file.toURI().toString()));
-                    } else {
-                        imageView.setImage(new Image(getClass().getResourceAsStream("/images/default.png")));
-                    }
-                } catch (Exception e) {
-                    imageView.setImage(new Image(getClass().getResourceAsStream("/images/default.png")));
-                }
+
+                // ВСЕГДА показываем заглушку (для любых товаров)
+                Image defaultImage = new Image(getClass().getResourceAsStream("/images/default.png"));
+                imageView.setImage(defaultImage);
                 setGraphic(imageView);
             }
         });
-        photoCol.setPrefWidth(80);
 
         TableColumn<Product, String> nameCol = new TableColumn<>("Наименование");
         nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -325,6 +378,7 @@ public class MainView extends Application {
         }
 
         tableView.setItems(filtered);
+        updateStatistics();
     }
 
     // Верхняя панель: ФИО пользователя, кнопка выхода, кнопка "Заказы"
@@ -365,6 +419,7 @@ public class MainView extends Application {
         new ProductForm(product, () -> {
             loadProducts();
             tableView.refresh();
+            updateStatistics();
         });
     }
 
@@ -419,6 +474,7 @@ public class MainView extends Application {
 
             showAlert("Успех", "Товар удалён");
             loadProducts();
+            updateStatistics();
 
         } catch (SQLException e) {
             showAlert("Ошибка БД", e.getMessage());

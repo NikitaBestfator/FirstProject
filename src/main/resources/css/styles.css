@@ -76,3 +76,30 @@
 .blue-row {
     -fx-background-color: lightblue;
 }
+/* Стиль для выбранной строки в таблице */
+.table-row-cell:selected {
+    -fx-background-color: #0059b3; /* Тёмно-синий фон при выборе */
+    -fx-text-fill: white;          /* Белый текст при выборе */
+}
+
+/* Если строка выбрана и сфокусирована (чтобы было единообразно) */
+.table-row-cell:selected:focused {
+    -fx-background-color: #0059b3;
+    -fx-text-fill: white;
+}
+
+/* Стили для выбранных ячеек (на всякий случай) */
+.table-cell:selected {
+    -fx-text-fill: white;
+}
+#statsBar {
+    -fx-background-color: #e9ecef;
+    -fx-border-color: #dee2e6;
+    -fx-border-width: 1 0 0 0;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+#statsBar .label {
+    -fx-padding: 5 10 5 0;
+}

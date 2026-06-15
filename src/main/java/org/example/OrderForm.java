@@ -177,6 +177,7 @@ public class OrderForm {
             showAlert("Ошибка", "Выберите товар и укажите количество");
             return;
         }
+
         int quantity;
         try {
             quantity = Integer.parseInt(quantityField.getText());
@@ -190,6 +191,28 @@ public class OrderForm {
         int productId = Integer.parseInt(selected.split(" - ")[0]);
         String productName = selected.split(" - ")[1].split(" \\(")[0];
         double price = Double.parseDouble(selected.split("\\(")[1].replace(" руб.)", ""));
+
+        try (Connection conn = getConnection()) {
+            String checkSql = "SELECT count FROM products WHERE id = ?";
+            try (PreparedStatement pstmt = conn.prepareStatement(checkSql)) {
+                pstmt.setInt(1, productId);
+                ResultSet rs = pstmt.executeQuery();
+                if (rs.next()) {
+                    int available = rs.getInt("count");
+                    if (quantity > available) {
+                        showAlert("Ошибка", "Недостаточно товара на складе.\nДоступно: " + available + " шт.\nЗаказано: " + quantity);
+                        return;
+                    }
+                } else {
+                    showAlert("Ошибка", "Товар не найден");
+                    return;
+                }
+            }
+        } catch (SQLException e) {
+            showAlert("Ошибка БД", "Не удалось проверить остаток: " + e.getMessage());
+            return;
+        }
+        // ============================================================
 
         CartItem item = new CartItem(productId, productName, quantity, price);
         cartItems.add(item);
