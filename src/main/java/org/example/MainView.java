@@ -185,7 +185,6 @@ public class MainView extends Application {
         tableView.getColumns().clear();
 
         // Колонка с фото
-        // Колонка с фото
         TableColumn<Product, String> photoCol = new TableColumn<>("Фото");
         photoCol.setCellFactory(col -> new TableCell<Product, String>() {
             private final ImageView imageView = new ImageView();
