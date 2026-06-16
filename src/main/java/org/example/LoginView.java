@@ -8,12 +8,16 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.image.Image;
+// import org.slf4j.Logger; раскомментируйте строки для логирования
+// import org.slf4j.LoggerFactory;
 
 import java.sql.*;
 
 public class LoginView extends Application {
 
     private Stage primaryStage;
+    // private static final Logger log = LoggerFactory.getLogger(LoginView.class); эта строка записывает логи, нужно
+    // раскомментировать
 
     @Override
     public void start(Stage primaryStage) {
