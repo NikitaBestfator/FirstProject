@@ -113,7 +113,7 @@ public class LoginView extends Application {
         mainView.start(mainStage);
         primaryStage.close(); // закрываем окно входа
     }
-
+    // Уведомления о каком-то событии действий пользователя
     private void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);
