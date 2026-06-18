@@ -480,7 +480,7 @@ public class MainView extends Application {
         }
     }
 
-    // Уведомления
+    // Уведомления о каком-то событии действий пользователя
     private void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);

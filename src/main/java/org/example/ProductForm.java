@@ -40,7 +40,7 @@ public class ProductForm {
         this.onSaveCallback = onSaveCallback;
         showWindow();
     }
-
+    // Создает и настраивает окно для добавления и редактирования товара
     private void showWindow() {
         stage = new Stage();
 
@@ -142,9 +142,7 @@ public class ProductForm {
             fillFields();
         }
 
-        // ============================================================
-        // РАСТЯГИВАЕМ ПОЛЯ (без цикла, без Node)
-        // ============================================================
+        // Растягиваем поля (без цикла, без Node)
         // Наименование
         GridPane.setHgrow(nameField, Priority.ALWAYS);
         nameField.setMaxWidth(Double.MAX_VALUE);
@@ -180,14 +178,13 @@ public class ProductForm {
         // Поставщик
         GridPane.setHgrow(supplierCombo, Priority.ALWAYS);
         supplierCombo.setMaxWidth(Double.MAX_VALUE);
-        // ============================================================
 
         Scene scene = new Scene(grid, 600, 650);
         scene.getStylesheets().add(getClass().getResource("/css/styles.css").toExternalForm());
         stage.setScene(scene);
         stage.show();
     }
-
+    // Переносит данные из объекта editingProducts редактируемый товар в графические элементы интерфейса
     private void fillFields() {
         nameField.setText(editingProduct.getName());
         priceField.setText(String.valueOf(editingProduct.getPrice()));
@@ -270,7 +267,7 @@ public class ProductForm {
             e.printStackTrace();
         }
     }
-
+    // Сохранение товаров
     private void saveProduct() {
         // Валидация
         if (nameField.getText().isEmpty()) {
@@ -290,7 +287,7 @@ public class ProductForm {
             showAlert("Ошибка", "Цена, количество и скидка должны быть неотрицательными числами (скидка 0-100)");
             return;
         }
-
+        // Подключение к БД и данные, которые берутся из БД
         try (Connection conn = getConnection()) {
             if (editingProduct == null) {
                 // INSERT
@@ -339,13 +336,13 @@ public class ProductForm {
             showAlert("Ошибка БД", e.getMessage());
         }
     }
-
+    // Подключение к БД
     private Connection getConnection() throws SQLException {
         return DriverManager.getConnection(
                 "jdbc:mysql://localhost:3306/shoe_shop?useSSL=false&serverTimezone=UTC",
                 "admin", "admin123");
     }
-
+    // Уведомления о каком-то событии действий пользователя
     private void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);

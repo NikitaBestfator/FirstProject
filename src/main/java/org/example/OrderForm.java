@@ -212,7 +212,6 @@ public class OrderForm {
             showAlert("Ошибка БД", "Не удалось проверить остаток: " + e.getMessage());
             return;
         }
-        // ============================================================
 
         CartItem item = new CartItem(productId, productName, quantity, price);
         cartItems.add(item);
@@ -338,13 +337,13 @@ public class OrderForm {
             showAlert("Ошибка БД", e.getMessage());
         }
     }
-
+    // Подключение к БД
     private Connection getConnection() throws SQLException {
         return DriverManager.getConnection(
                 "jdbc:mysql://localhost:3306/shoe_shop?useSSL=false&serverTimezone=UTC",
                 "admin", "admin123");
     }
-
+    // Создает информационное окошко
     private void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);

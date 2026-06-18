@@ -33,7 +33,7 @@ public class OrdersView extends Application {
 
         primaryStage.setMinWidth(800);
         primaryStage.setMinHeight(450);
-
+        // Создание иконки
         try {
             Image icon = new Image(getClass().getResourceAsStream("/images/icon.png"));
             primaryStage.getIcons().add(icon);
@@ -169,20 +169,20 @@ public class OrdersView extends Application {
             showAlert("Ошибка БД", e.getMessage());
         }
     }
-
+    // Открывает окно редактирования заказа и настраивает автоматическое обновление таблиц
     private void openOrderForm(Order order) {
         new OrderForm(order, () -> {
             loadOrders();
             tableView.refresh();
         });
     }
-
+    // Подключение к БД
     private Connection getConnection() throws SQLException {
         return DriverManager.getConnection(
                 "jdbc:mysql://localhost:3306/shoe_shop?useSSL=false&serverTimezone=UTC",
                 "admin", "admin123");
     }
-
+    // Уведомления о каком-то событии действий пользователя
     private void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);
