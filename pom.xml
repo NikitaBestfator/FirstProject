@@ -20,17 +20,19 @@
             <artifactId>mysql-connector-j</artifactId>
             <version>8.0.33</version>
         </dependency>
-        <!--Зависимость для JavaFX -->
+
+        <!-- Зависимости для JavaFX -->
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
-            <version>21</version>
+            <version>25.0.1</version>
         </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-fxml</artifactId>
-            <version>21</version>
+            <version>25.0.1</version>
         </dependency>
+
         <!-- Логирование SLF4J + Logback -->
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -44,4 +46,16 @@
         </dependency>
     </dependencies>
 
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.openjfx</groupId>
+                <artifactId>javafx-maven-plugin</artifactId>
+                <version>0.0.8</version>
+                <configuration>
+                    <mainClass>org.example.LoginView</mainClass>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

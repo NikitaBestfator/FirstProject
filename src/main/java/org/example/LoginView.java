@@ -26,15 +26,13 @@ public class LoginView extends Application {
 
         primaryStage.setMinWidth(1000);
         primaryStage.setMinHeight(600);
-
         // Установка иконки
-        try {
-            Image icon = new Image(getClass().getResourceAsStream("/images/icon.png"));
-            primaryStage.getIcons().add(icon);
-        } catch (Exception e) {
-            // игнорируем — иконка не загрузилась, приложение работает
-            System.err.println("Иконка не загружена: " + e.getMessage());
-        }
+        // try {
+//            javafx.scene.image.Image icon = new javafx.scene.image.Image(getClass().getResourceAsStream("/images/icon.png"));
+//            stage.getIcons().add(icon);
+//        } catch (Exception e) {
+//            System.err.println("Иконка не загружена: " + e.getMessage());
+//        }
         // Создаём элементы формы
         Label lblLogin = new Label("Логин:");
         TextField txtLogin = new TextField();

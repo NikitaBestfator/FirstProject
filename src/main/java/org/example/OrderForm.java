@@ -42,12 +42,12 @@ public class OrderForm {
         stage.setTitle(editingOrder == null ? "Добавление заказа" : "Редактирование заказа");
 
         // Установка иконки
-        try {
-            javafx.scene.image.Image icon = new javafx.scene.image.Image(getClass().getResourceAsStream("/images/icon.png"));
-            stage.getIcons().add(icon);
-        } catch (Exception e) {
-            System.err.println("Иконка не загружена: " + e.getMessage());
-        }
+//        try {
+//            javafx.scene.image.Image icon = new javafx.scene.image.Image(getClass().getResourceAsStream("/images/icon.png"));
+//            stage.getIcons().add(icon);
+//        } catch (Exception e) {
+//            System.err.println("Иконка не загружена: " + e.getMessage());
+//        }
 
         GridPane grid = new GridPane();
         grid.setPadding(new Insets(10));

@@ -34,12 +34,12 @@ public class OrdersView extends Application {
         primaryStage.setMinWidth(800);
         primaryStage.setMinHeight(450);
         // Создание иконки
-        try {
-            Image icon = new Image(getClass().getResourceAsStream("/images/icon.png"));
-            primaryStage.getIcons().add(icon);
-        } catch (Exception e) {
-            System.err.println("Иконка не загружена: " + e.getMessage());
-        }
+//        try {
+//            Image icon = new Image(getClass().getResourceAsStream("/images/icon.png"));
+//            primaryStage.getIcons().add(icon);
+//        } catch (Exception e) {
+//            System.err.println("Иконка не загружена: " + e.getMessage());
+//        }
         loadOrders();
         createOrderTable();
 
